@@ -4,10 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shape Up or Shape Out</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <main>
-
+        <inputContainer class="upperContainer">
+            <div class="headerText">Add a Shape !</div>
+                <div class="row">
+                    <button id="Rectangle" class="button">Add Rectangle</button>
+                    <input type="number" id="rectangleInputHeight" placeholder="Add height in px" class="input">
+                    <input type="number" id="rectangleInputWidth" placeholder="Add width in px" class="input">
+                </div>
+                <div class="row">
+                    <button id="Square" class="button">Add Square</button>
+                    <input type="number" id="squareInput" placeholder="Add height in px" class="input">
+                </div>
+                <div class="row">
+                    <button id="Circle" class="button">Add Circle</button>
+                    <input type="number" id="circleInput" placeholder="Add radius in px" class="input">
+                </div>
+                <div class="row">
+                    <button id="Triangle" class="button">Add Triangle</button>
+                    <input type="number" id="triangleInput" placeholder="Add height in px" class="input">
+                </div>
+            </inputContainer>
+        <div class="lowerContainer">
+            <div id="shapeContainer"></div>
+                <div class="sidePanel">
+                    <div class="row">
+                        <label for="shapeName">Shape Name:</label>
+                        <input type="text" id="shapeName" readonly>
+                    </div>
+                    <div class="row">
+                        <label for="shapeWidth">Width:</label>
+                        <input type="text" id="shapeWidth" readonly>
+                    </div>
+                    <div class="row">
+                        <label for="shapeHeight">Height:</label>
+                        <input type="text" id="shapeHeight" readonly>
+                    </div>
+                    <div class="row">
+                        <label for="shapeRadius">Radius:</label>
+                        <input type="text" id="shapeRadius" readonly>
+                    </div>
+                    <div class="row">
+                        <label for="shapeArea">Area:</label>
+                        <input type="text" id="shapeArea" readonly>
+                    </div>
+                    <div class="row">
+                        <label for="shapePerimeter">Perimeter:</label>
+                        <input type="text" id="shapePerimeter" readonly>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
     <script src="app.js"></script>
 </body>
