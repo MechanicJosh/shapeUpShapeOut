@@ -1,20 +1,18 @@
 class Shape{
-    constructor(name, height = null, width = null){
-        this.name = name;
-        this.width = width;
-        this.height = height;
+    constructor(height = null, width = null){
+        this.width = Number(width);
+        this.height = Number(height);
     }    
     draw(){
         const shapeElement = document.createElement('div');
         shapeElement.classList.add('shape');
+
         shapeElement.style.width = `${this.width}px`;
         shapeElement.style.height = `${this.height}px`;
-
-        
         shapeElement.style.position = 'absolute';
+        shapeElement.style.opacity = 0.75;
         shapeElement.style.top = `${Math.random() * (600 - this.height)}px`;
         shapeElement.style.left = `${Math.random() * (600 - this.width)}px`;
-
         shapeElement.style.backgroundColor = this.color;
 
         shapeElement.addEventListener('click', () => this.describe());
@@ -23,20 +21,31 @@ class Shape{
         document.getElementById('shapeContainer').appendChild(shapeElement);
         this.element = shapeElement;
     }
+    describe(){        
+        document.getElementById('shapeNameOutput').value = this.name;
+        document.getElementById('shapeWidthOutput').value = this.width;
+        document.getElementById('shapeHeightOutput').value = this.height;
+        document.getElementById('shapeRadiusOutput').value = 'N/A';
+        document.getElementById('shapeAreaOutput').value = this.area();
+        document.getElementById('shapePerimeterOutput').value = this.perimeter();
+    }
 }
 
 const circleButton = document.getElementById('Circle');
 circleButton.addEventListener('click', () => {
     const radiusInput = document.getElementById('circleInput').value;
-    const circle = new Circle('circle', radiusInput);
+    const circle = new Circle(radiusInput);
+    const circleArea = circle.area();
+    const circlePerimeter = circle.perimeter()
     circle.draw();
 });
 
 class Circle extends Shape{
-    constructor(name, radius){
-        super(name, radius * 2, radius * 2);
+    constructor(radius){
+        super(radius * 2, radius * 2);
         this.radius = radius;
         this.color = 'purple'; 
+        this.name = 'circle';
     }
     draw(){
         super.draw();
@@ -44,75 +53,95 @@ class Circle extends Shape{
         this.element.style.borderRadius = '50%';
         
     }
-    circleArea(){
+    describe(){
+        super.describe();
+        document.getElementById('shapeRadiusOutput').value = this.radius;
+    }
+    area(){
         return Math.PI * (this.radius * this.radius);
     }
-    circlePerimeter(){
-        return 2 * Math.PI * this.radius;
+    perimeter(){
+        return (2 * Math.PI * this.radius);
+    }
+}
+
+class Square extends Shape{
+    constructor(height){
+        super(height);
+        this.color = 'red';
+        this.width = Number(height);
+        this.name = 'square';
+    }
+    describe(){
+        super.describe();
+    }
+    draw(){
+        super.draw();
+        this.element.style.backgroundColor = this.color;
+    }
+    area(){
+        return this.height * this.height; 
+    }
+    perimeter(){
+        return 4 * this.height;
     }
 }
 
 const squareButton = document.getElementById('Square');
 squareButton.addEventListener('click', () => {
     const squareInput = document.getElementById('squareInput').value;
-    const square = new Square('square', squareInput);
+    const square = new Square(squareInput);
+    const squareArea = square.area();
+    const squarePerimeter = square.perimeter();
     square.draw();
 });
-
-class Square extends Shape{
-    constructor(name,height){
-        super(name, height);
-        this.color = 'red';
-        this.width = height;
-    }
-    draw(){
-        super.draw();
-        this.element.style.backgroundColor = this.color;
-    }
-    squareArea(){
-        return this.height * this.height; 
-    }
-    squarePerimeter(){
-        return 4 * this.height;
-    }
-}
 
 const rectangleButton = document.getElementById('Rectangle');
 rectangleButton.addEventListener('click', () => {
     const rectangleInputWidth = document.getElementById('rectangleInputWidth').value;
     const rectangleInputHeight = document.getElementById('rectangleInputHeight').value;
-    const rectangle = new Rectangle('rectangle', rectangleInputWidth, rectangleInputHeight);
+    const rectangle = new Rectangle(rectangleInputWidth, rectangleInputHeight);
+    const rectangleArea = rectangle.area()
+    const rectanglePerimeter = rectangle.perimeter();
     rectangle.draw();
 });
 
 class Rectangle extends Shape{
-    constructor(name,width,height){
-        super(name,width,height);
+    constructor(width,height){
+        super(width,height);
         this.color = 'green';
+        this.name = 'rectangle';
     }
     draw(){
         super.draw();
         this.element.style.backgroundColor = this.color;
     }
-    rectanlgeArea(){
-        return this.width * this.height;
+    describe(){
+        super.describe();
     }
-    rectanglePerimeter(){
-        return 2 * (this.width + this.height);
+    area(){
+        return Number(this.width * this.height);
+    }
+    perimeter(){
+        return (2 * (this.width + this.height));
     }
 }
 
 const triangleButton = document.getElementById('Triangle');
 triangleButton.addEventListener('click', () => {
     const triangleInput = document.getElementById('triangleInput').value;
-    const triangle = new Triangle('triangle', triangleInput);
+    const triangle = new Triangle(triangleInput);
+    const triangleArea = triangle.area();
+    const trianglePerimeter = triangle.perimeter();
     triangle.draw();
 });
 
 class Triangle extends Shape{
-    constructor(name, height){
-        super(name,height);
+    constructor(height){
+        super(height);
+        this.width = Number(height);
         this.color = 'yellow';
+        this.name = 'triangle';
     }
     draw(){
         const shapeElement = document.createElement('div');
@@ -122,43 +151,22 @@ class Triangle extends Shape{
         shapeElement.style.borderBottom = `${this.height}px solid ${this.color}`;
         shapeElement.style.borderLeft = `${this.height}px solid transparent`;
         shapeElement.style.position = 'absolute';
+        shapeElement.style.opacity = 0.75;
         shapeElement.style.top = `${Math.random() * (600 - this.height)}px`;
-        shapeElement.style.left = `${Math.random() * (600 - this.width)}px`;
+        shapeElement.style.left = `${Math.random() * (600 - this.height)}px`;
         shapeElement.addEventListener('click', () => this.describe());
         shapeElement.addEventListener('dblclick', () => shapeElement.remove());
 
         document.getElementById('shapeContainer').appendChild(shapeElement);
         this.element = shapeElement;
     }
-    triangleArea(){
+    describe(){
+        super.describe();
+    }
+    area(){
         return (1/2) * this.height * this.height;
     }
-    trianglePerimeter(){
+    perimeter(){
         return 2 * this.height + (Math.sqrt(2)) * this.height;
     }
-
-}
-
-
-
-
-
-// const myCircle = new Circle('circle',50);
-// const circarea = myCircle.circleArea();
-// const circPerimeter = myCircle.circlePerimeter();
-// console.log(myCircle, circarea, circPerimeter);
-
-// const myRectangle = new Rectangle('rectangle', 10, 5);
-// const recArea = myRectangle.rectanlgeArea();
-// const recPerimeter = myRectangle.rectanglePerimeter();
-// console.log(myRectangle, recArea, recPerimeter);
-
-// const mySquare = new Square('square',5);
-// const sqArea = mySquare.squareArea();
-// const sqPerimeter = mySquare.squarePerimeter();
-// console.log(mySquare, sqArea, sqPerimeter);
-
-// const myTriangle = new Triangle('triangle', 10);
-// const triArea = myTriangle.triangleArea();
-// const triPerimeter = myTriangle.trianglePerimeter();
-// console.log(myTriangle, triArea, triPerimeter);
+};
